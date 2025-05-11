@@ -1,14 +1,18 @@
 Windows Registry Editor Version 5.00
 
-; --- ADK Custom Robocopy Right-Click Actions ---
-; These entries add "Copy (Robocopy)" and "Paste (Robocopy)"
-; options to the context menus for files and folders.
-; They require holding SHIFT to appear.
-; ---------------------------------------------------
+; ┌───────────────────────────────────────────────────────────────────┐
+; │              ADK Custom Robocopy Right-Click Actions              │
+; │                                                                   │
+; │ These entries add “Copy (Robocopy Source)” and “Paste (Robocopy)” │
+; │        options to the context menus for files and folders.        │
+; │              They require holding SHIFT to appear.                │
+; └───────────────────────────────────────────────────────────────────┘
 
-; --- Robocopy Source (Copy) Action ---
-; Adds "Copy (Robocopy)" to the right-click menu for Files
-; Requires SHIFT key to appear because of the "Extended" value
+; ┌───────────────── Robocopy Source (Copy) Action ───────────────────┐
+; │                                                                   │
+; │     Adds “Copy (Robocopy)” to the right-click menu for Files.     │
+; │   Requires SHIFT key to appear because of the “Extended” value.   │
+; └───────────────────────────────────────────────────────────────────┘
 
 [HKEY_CLASSES_ROOT\*\shell\ADK-RobocopySourceCopy]
 @="Copy (Robocopy)"
@@ -19,8 +23,8 @@ Windows Registry Editor Version 5.00
 ; This command writes the full path of the selected file/folder to a temporary file.
 @="pwsh -NoProfile -Command \"$temp_folder_path = \\\"${Env:TEMP}\\ADK\\\"; if (-not (Test-Path -LiteralPath $temp_folder_path -PathType \\\"Container\\\")) { New-Item -ItemType \\\"Directory\\\" -Path $temp_folder_path | Out-Null }; \\\"%L\\\" | Out-File -LiteralPath \\\"${temp_folder_path}\\robocopy_source_path.txt\\\" -Encoding \\\"utf8NoBOM\\\" | Out-Null\""
 
-; Adds "Copy (Robocopy)" to the right-click menu for Folders
-; Requires SHIFT key to appear because of the "Extended" value
+; Adds “Copy (Robocopy)” to the right-click menu for Folders
+; Requires SHIFT key to appear because of the “Extended” value
 
 [HKEY_CLASSES_ROOT\Directory\shell\ADK-RobocopySourceCopy]
 @="Copy (Robocopy)"
@@ -33,10 +37,12 @@ Windows Registry Editor Version 5.00
 @="pwsh -NoProfile -Command \"$temp_folder_path = \\\"${Env:TEMP}\\ADK\\\"; if (-not (Test-Path -LiteralPath $temp_folder_path -PathType \\\"Container\\\")) { New-Item -ItemType \\\"Directory\\\" -Path $temp_folder_path | Out-Null }; \\\"%L\\\" | Out-File -LiteralPath \\\"${temp_folder_path}\\robocopy_source_path.txt\\\" -Encoding \\\"utf8NoBOM\\\" | Out-Null\""
 
 
-; --- Robocopy Destination (Paste) Action ---
-; Adds "Paste (Robocopy)" to the right-click menu when you right-click
-; in the background of a folder window (the 'paste' destination).
-; Requires SHIFT key to appear because of the "Extended" value
+; ┌─────────────── Robocopy Destination (Paste) Action ───────────────────┐
+; │                                                                       │
+; │ Adds “Paste (Robocopy)” to the right-click menu when you right-click  │
+; │    in the background of a folder window (the “paste” destination).    │
+; │     Requires SHIFT key to appear because of the “Extended” value.     │
+; └───────────────────────────────────────────────────────────────────────┘
 
 [HKEY_CLASSES_ROOT\Directory\Background\shell\ADK-RobocopyPaste]
 @="Paste (Robocopy)"
