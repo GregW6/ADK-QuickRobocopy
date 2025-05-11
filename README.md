@@ -2,6 +2,12 @@
 
 This repository provides Windows Registry files to add and remove custom “Copy (Robocopy Source)” and “Paste (Robocopy Destination)” options to the context menus for files and folders. These actions leverage the powerful `robocopy` command-line utility for efficient file and folder operations.
 
+## Prerequisites
+
+-   **Windows Operating System:** These registry modifications and scripts are designed for Windows.
+-   **Robocopy:** The `robocopy` command-line utility must be available on your system. It is included by default in most modern Windows versions.
+-   **PowerShell Core:** The scripts are executed using `pwsh`. You need to have PowerShell Core installed and accessible via the `pwsh` command. This is different from the default Windows PowerShell.
+
 ## Features
 
 - **Copy (Robocopy Source):** Adds a context menu option for files and folders to set the source path for a `robocopy` operation.
