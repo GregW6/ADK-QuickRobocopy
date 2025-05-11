@@ -1,0 +1,49 @@
+Windows Registry Editor Version 5.00
+
+; --- ADK Custom Robocopy Right-Click Actions ---
+; These entries add "Copy (Robocopy)" and "Paste (Robocopy)"
+; options to the context menus for files and folders.
+; They require holding SHIFT to appear.
+; ---------------------------------------------------
+
+; --- Robocopy Source (Copy) Action ---
+; Adds "Copy (Robocopy)" to the right-click menu for Files
+; Requires SHIFT key to appear because of the "Extended" value
+
+[HKEY_CLASSES_ROOT\*\shell\ADK-RobocopySourceCopy]
+@="Copy (Robocopy)"
+"Icon"="shell32.dll,134" ; Optional: Uses a standard copy icon
+"Extended"="" ; <--- Hide the option unless you hold SHIFT while right-clicking (makes menus less cluttered)
+
+[HKEY_CLASSES_ROOT\*\shell\ADK-RobocopySourceCopy\command]
+; This command writes the full path of the selected file/folder to a temporary file.
+@="pwsh -NoProfile -Command \"$temp_folder_path = \\\"${Env:TEMP}\\ADK\\\"; if (-not (Test-Path -LiteralPath $temp_folder_path -PathType \\\"Container\\\")) { New-Item -ItemType \\\"Directory\\\" -Path $temp_folder_path | Out-Null }; \\\"%L\\\" | Out-File -LiteralPath \\\"${temp_folder_path}\\robocopy_source_path.txt\\\" -Encoding \\\"utf8NoBOM\\\" | Out-Null\""
+
+; Adds "Copy (Robocopy)" to the right-click menu for Folders
+; Requires SHIFT key to appear because of the "Extended" value
+
+[HKEY_CLASSES_ROOT\Directory\shell\ADK-RobocopySourceCopy]
+@="Copy (Robocopy)"
+"Icon"="shell32.dll,134" ; Optional: Uses a standard copy icon (or change to 4 for folder)
+"Extended"="" ; <--- Hide the option unless you hold SHIFT while right-clicking (makes menus less cluttered)
+
+[HKEY_CLASSES_ROOT\Directory\shell\ADK-RobocopySourceCopy\command]
+; This command does the same thing as above, saving the selected folder's path.
+; Using a subfolder \ADK\ in %TEMP% to make the temp file specific.
+@="pwsh -NoProfile -Command \"$temp_folder_path = \\\"${Env:TEMP}\\ADK\\\"; if (-not (Test-Path -LiteralPath $temp_folder_path -PathType \\\"Container\\\")) { New-Item -ItemType \\\"Directory\\\" -Path $temp_folder_path | Out-Null }; \\\"%L\\\" | Out-File -LiteralPath \\\"${temp_folder_path}\\robocopy_source_path.txt\\\" -Encoding \\\"utf8NoBOM\\\" | Out-Null\""
+
+
+; --- Robocopy Destination (Paste) Action ---
+; Adds "Paste (Robocopy)" to the right-click menu when you right-click
+; in the background of a folder window (the 'paste' destination).
+; Requires SHIFT key to appear because of the "Extended" value
+
+[HKEY_CLASSES_ROOT\Directory\Background\shell\ADK-RobocopyPaste]
+@="Paste (Robocopy)"
+"Icon"="shell32.dll,260" ; Optional: Uses a standard paste icon
+"Extended"="" ; <--- Hide the option unless you hold SHIFT while right-clicking (makes menus less cluttered)
+
+[HKEY_CLASSES_ROOT\Directory\Background\shell\ADK-RobocopyPaste\command]
+; This command reads the source path from the temporary file, gets the destination path,
+; and then runs robocopy with the specified parameters.
+@="pwsh -NoProfile -Command \"$item_list_file_path = \\\"${Env:TEMP}\\ADK\\robocopy_source_path.txt\\\"; if (Test-Path -LiteralPath $item_list_file_path -PathType \\\"Leaf\\\") { $item_paths = Get-Content -LiteralPath $item_list_file_path -Encoding \\\"utf8NoBOM\\\"; foreach ($path in $item_paths) { if ((Get-Item -LiteralPath $path).PSIsContainer) { robocopy \\\"$path\\\" \\\"%V\\$( Split-Path -Path $path -Leaf )\\\" \\\"*.*\\\" /E /COPY:DAT /DCOPY:DAT /SJ /SL /R:2 /W:5 /XO /XC /V /TS /FP /TEE /UNICODE /ETA } else { robocopy \\\"$( Split-Path -Path $path -Parent )\\\" \\\"%V\\\" \\\"$( Split-Path -Path $path -Leaf )\\\" /E /COPY:DAT /DCOPY:DAT /SJ /SL /R:2 /W:5 /XO /XC /V /TS /FP /TEE /UNICODE /ETA /XF \\\"*.*\\\" /XD \\\"*.*\\\" } }; Remove-Item -LiteralPath $item_list_file_path } else { Write-Host \\\"Copy files first.\\\" -ForegroundColor \\\"Red\\\" }; cmd /c \\\"pause\\\"\""
