@@ -1,9 +1,11 @@
 Windows Registry Editor Version 5.00
 
-; --- Remove ADK Custom Robocopy Right-Click Actions ---
-; This file removes the "Copy (Robocopy)" and "Paste (Robocopy)"
-; context menu entries added by the corresponding "Add" file.
-; ---------------------------------------------------------
+; ┌─────────────────────────────────────────────────────────────────┐
+; │          Remove ADK Custom Robocopy Right-Click Actions         │
+; │                                                                 │
+; │  This file removes the “Copy (Robocopy)” and “Paste (Robocopy)” │
+; │   context menu entries added by the corresponding “Add” file.   │
+; └─────────────────────────────────────────────────────────────────┘
 
 ; Remove Copy (Robocopy) for Files
 [-HKEY_CLASSES_ROOT\*\shell\ADK-RobocopySourceCopy]
