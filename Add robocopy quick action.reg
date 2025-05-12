@@ -58,6 +58,7 @@ Windows Registry Editor Version 5.00
 [HKEY_CLASSES_ROOT\Directory\Background\shell\ADK-RobocopyPaste\command]
 ; This command reads the source path from the temporary file, gets the destination path,
 ; and then runs robocopy with the specified parameters.
+; 
 ; PowerShell command breakdown:
 ; `pwsh -NoProfile -Command "..."` : Executes a PowerShell command without loading the user profile.
 ; `$item_list_file_path = \"${Env:TEMP}\\ADK\\robocopy_source_path.txt\\\"` : Sets a variable for the temporary source file path.
@@ -67,6 +68,7 @@ Windows Registry Editor Version 5.00
 ; `$item_paths = Get-Content -LiteralPath $item_list_file_path -Encoding \\\"utf8NoBOM\\\"` : Reads source path(s) from the temporary file.
 ; `foreach ($path in $item_paths) { ... }` : Loops through each source path (usually just one).
 ; `if ((Get-Item -LiteralPath $path).PSIsContainer) { ... } else { ... }` : Checks if the source path is a directory or file.
+; 
 ; --- Robocopy command for Directories ---
 ; `robocopy \\\"$path\\\" \\\"%V\\$( Split-Path -Path $path -Leaf )\\\" \\\"*.*\\\" /E /COPY:DAT /DCOPY:DAT /SJ /SL /R:2 /W:5 /XO /XC /V /TS /FP /TEE /UNICODE /ETA`
 ; `robocopy` : The Robocopy command.
@@ -88,6 +90,7 @@ Windows Registry Editor Version 5.00
 ; `/TEE` : Output to console.
 ; `/UNICODE` : Output as Unicode.
 ; `/ETA` : Show Estimated Time of Arrival.
+; 
 ; --- Robocopy command for Files ---
 ; `robocopy \\\"$( Split-Path -Path $path -Parent )\\\" \\\"%V\\\" \\\"$( Split-Path -Path $path -Leaf )\\\" /E /COPY:DAT /DCOPY:DAT /SJ /SL /R:2 /W:5 /XO /XC /V /TS /FP /TEE /UNICODE /ETA /XF \\\"*.*\\\" /XD \\\"*.*\\\"`
 ; `robocopy` : The Robocopy command.
@@ -95,10 +98,9 @@ Windows Registry Editor Version 5.00
 ; `\\\"%V\\\"` : Destination directory path (%V is the paste destination).
 ; `\\\"$( Split-Path -Path $path -Leaf )\\\"` : Specific file to copy.
 ; `/E /COPY:DAT /DCOPY:DAT /SJ /SL /R:2 /W:5 /XO /XC /V /TS /FP /TEE /UNICODE /ETA` : Same options as for directories.
-; `/XF \\\"*.*\\\"` : Exclude all files.
 ; `/XD \\\"*.*\\\"` : Exclude all directories.
 ; `Remove-Item -LiteralPath $item_list_file_path` : Deletes the temporary source file.
-@="pwsh -NoProfile -Command \"$item_list_file_path = \\\"${Env:TEMP}\\ADK\\robocopy_source_path.txt\\\"; if (Test-Path -LiteralPath $item_list_file_path -PathType \\\"Leaf\\\") { $item_paths = Get-Content -LiteralPath $item_list_file_path -Encoding \\\"utf8NoBOM\\\"; foreach ($path in $item_paths) { if ((Get-Item -LiteralPath $path).PSIsContainer) { robocopy \\\"$path\\\" \\\"%V\\$( Split-Path -Path $path -Leaf )\\\" \\\"*.*\\\" /E /COPY:DAT /DCOPY:DAT /SJ /SL /R:2 /W:5 /XO /XC /V /TS /FP /TEE /UNICODE /ETA } else { robocopy \\\"$( Split-Path -Path $path -Parent )\\\" \\\"%V\\\" \\\"$( Split-Path -Path $path -Leaf )\\\" /E /COPY:DAT /DCOPY:DAT /SJ /SL /R:2 /W:5 /XO /XC /V /TS /FP /TEE /UNICODE /ETA /XF \\\"*.*\\\" /XD \\\"*.*\\\" } }; Remove-Item -LiteralPath $item_list_file_path } else { Write-Host \\\"Copy files first.\\\" -ForegroundColor \\\"Red\\\" }; cmd /c \\\"pause\\\"\""
+@="pwsh -NoProfile -Command \"$item_list_file_path = \\\"${Env:TEMP}\\ADK\\robocopy_source_path.txt\\\"; if (Test-Path -LiteralPath $item_list_file_path -PathType \\\"Leaf\\\") { $item_paths = Get-Content -LiteralPath $item_list_file_path -Encoding \\\"utf8NoBOM\\\"; foreach ($path in $item_paths) { if ((Get-Item -LiteralPath $path).PSIsContainer) { robocopy \\\"$path\\\" \\\"%V\\$( Split-Path -Path $path -Leaf )\\\" \\\"*.*\\\" /E /COPY:DAT /DCOPY:DAT /SJ /SL /R:2 /W:5 /XO /XC /V /TS /FP /TEE /UNICODE /ETA } else { robocopy \\\"$( Split-Path -Path $path -Parent )\\\" \\\"%V\\\" \\\"$( Split-Path -Path $path -Leaf )\\\" /E /COPY:DAT /DCOPY:DAT /SJ /SL /R:2 /W:5 /XO /XC /V /TS /FP /TEE /UNICODE /ETA /XD \\\"*.*\\\" } }; Remove-Item -LiteralPath $item_list_file_path } else { Write-Host \\\"Copy files first.\\\" -ForegroundColor \\\"Red\\\" }; cmd /c \\\"pause\\\"\""
 
 
 ; ┌──────────────── Robocopy Cancel Copy Action ──────────────────┐
