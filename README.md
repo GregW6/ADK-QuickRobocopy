@@ -65,7 +65,7 @@ The “Paste (Robocopy)” action uses the following `robocopy` parameters:
 -   `/TEE`: Output to console.
 -   `/UNICODE`: Output as Unicode.
 -   `/ETA`: Show Estimated Time of Arrival.
--   `/XF "*.*"` and `/XD "*.*"` are used when copying a single file to ensure only the specified file is copied.
+-   `/XD "*.*"` are used when copying a single file to ensure only the specified file is copied.
 
 ## Shift Key Requirement
 
