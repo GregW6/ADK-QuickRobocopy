@@ -10,12 +10,12 @@ Windows Registry Editor Version 5.00
 
 ; ┌───────────────── Robocopy Source (Copy) Action ───────────────────┐
 ; │                                                                   │
-; │     Adds “Copy (Robocopy)” to the right-click menu for Files.     │
-; │   Requires SHIFT key to appear because of the “Extended” value.   │
+; │  Adds “Robocopy: Add to List” to the right-click menu for Files.  │
+; │  Requires SHIFT key to appear because of the “Extended” value.    │
 ; └───────────────────────────────────────────────────────────────────┘
 
 [HKEY_CLASSES_ROOT\*\shell\ADK-RobocopySourceCopy]
-@="Copy (Robocopy)"
+@="Robocopy: Add to List"
 "Icon"="shell32.dll,134" ; Optional: Uses a standard copy icon
 "Extended"="" ; <--- Hide the option unless you hold SHIFT while right-clicking (makes menus less cluttered)
 
@@ -28,19 +28,19 @@ Windows Registry Editor Version 5.00
 ; 3. Takes the selected item's path (%L) and writes it to “robocopy_source_path.txt” in the temporary folder.
 ; 4. Uses UTF8 encoding without a Byte Order Mark (BOM).
 ; 5. Suppresses output using Out-Null.
-@="pwsh -NoProfile -Command \"$temp_folder_path = \\\"${Env:TEMP}\\ADK\\\"; if (-not (Test-Path -LiteralPath $temp_folder_path -PathType \\\"Container\\\")) { New-Item -ItemType \\\"Directory\\\" -Path $temp_folder_path | Out-Null }; \\\"%L\\\" | Out-File -LiteralPath \\\"${temp_folder_path}\\robocopy_source_path.txt\\\" -Encoding \\\"utf8NoBOM\\\" | Out-Null\""
+@="pwsh -NoProfile -Command \"$temp_folder_path = \\\"${Env:TEMP}\\ADK\\\"; if (-not (Test-Path -LiteralPath $temp_folder_path -PathType \\\"Container\\\")) { New-Item -ItemType \\\"Directory\\\" -Path $temp_folder_path | Out-Null }; \\\"%L\\\" | Out-File -LiteralPath \\\"${temp_folder_path}\\robocopy_source_path.txt\\\" -Encoding \\\"utf8NoBOM\\\" -Append | Out-Null\""
 
 ; Adds “Copy (Robocopy)” to the right-click menu for Folders
 ; Requires SHIFT key to appear because of the “Extended” value
 
 [HKEY_CLASSES_ROOT\Directory\shell\ADK-RobocopySourceCopy]
-@="Copy (Robocopy)"
+@="Robocopy: Add to List"
 "Icon"="shell32.dll,134" ; Optional: Uses a standard copy icon (or change to 4 for folder)
 "Extended"="" ; <--- Hide the option unless you hold SHIFT while right-clicking (makes menus less cluttered)
 
 [HKEY_CLASSES_ROOT\Directory\shell\ADK-RobocopySourceCopy\command]
 ; This command does the same thing as above, saving the selected folder's path.
-@="pwsh -NoProfile -Command \"$temp_folder_path = \\\"${Env:TEMP}\\ADK\\\"; if (-not (Test-Path -LiteralPath $temp_folder_path -PathType \\\"Container\\\")) { New-Item -ItemType \\\"Directory\\\" -Path $temp_folder_path | Out-Null }; \\\"%L\\\" | Out-File -LiteralPath \\\"${temp_folder_path}\\robocopy_source_path.txt\\\" -Encoding \\\"utf8NoBOM\\\" | Out-Null\""
+@="pwsh -NoProfile -Command \"$temp_folder_path = \\\"${Env:TEMP}\\ADK\\\"; if (-not (Test-Path -LiteralPath $temp_folder_path -PathType \\\"Container\\\")) { New-Item -ItemType \\\"Directory\\\" -Path $temp_folder_path | Out-Null }; \\\"%L\\\" | Out-File -LiteralPath \\\"${temp_folder_path}\\robocopy_source_path.txt\\\" -Encoding \\\"utf8NoBOM\\\" -Append | Out-Null\""
 
 
 ; ┌─────────────── Robocopy Destination (Paste) Action ───────────────────┐
