@@ -15,3 +15,6 @@ Windows Registry Editor Version 5.00
 
 ; Remove Paste (Robocopy) for Folder Backgrounds
 [-HKEY_CLASSES_ROOT\Directory\Background\shell\ADK-RobocopyPaste]
+
+; Remove Cancel Copy (Robocopy) for Folder Backgrounds
+[-HKEY_CLASSES_ROOT\Directory\Background\shell\ADK-RobocopyCancelCopy]
