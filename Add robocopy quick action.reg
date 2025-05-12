@@ -99,3 +99,20 @@ Windows Registry Editor Version 5.00
 ; `/XD \\\"*.*\\\"` : Exclude all directories.
 ; `Remove-Item -LiteralPath $item_list_file_path` : Deletes the temporary source file.
 @="pwsh -NoProfile -Command \"$item_list_file_path = \\\"${Env:TEMP}\\ADK\\robocopy_source_path.txt\\\"; if (Test-Path -LiteralPath $item_list_file_path -PathType \\\"Leaf\\\") { $item_paths = Get-Content -LiteralPath $item_list_file_path -Encoding \\\"utf8NoBOM\\\"; foreach ($path in $item_paths) { if ((Get-Item -LiteralPath $path).PSIsContainer) { robocopy \\\"$path\\\" \\\"%V\\$( Split-Path -Path $path -Leaf )\\\" \\\"*.*\\\" /E /COPY:DAT /DCOPY:DAT /SJ /SL /R:2 /W:5 /XO /XC /V /TS /FP /TEE /UNICODE /ETA } else { robocopy \\\"$( Split-Path -Path $path -Parent )\\\" \\\"%V\\\" \\\"$( Split-Path -Path $path -Leaf )\\\" /E /COPY:DAT /DCOPY:DAT /SJ /SL /R:2 /W:5 /XO /XC /V /TS /FP /TEE /UNICODE /ETA /XF \\\"*.*\\\" /XD \\\"*.*\\\" } }; Remove-Item -LiteralPath $item_list_file_path } else { Write-Host \\\"Copy files first.\\\" -ForegroundColor \\\"Red\\\" }; cmd /c \\\"pause\\\"\""
+
+
+; ┌──────────────── Robocopy Cancel Copy Action ──────────────────┐
+; │                                                               │
+; │ Adds “Cancel Copy (Robocopy)” to the right-click menu for     │
+; │ folder backgrounds.                                           │
+; │ Requires SHIFT key to appear because of the “Extended” value. │
+; └───────────────────────────────────────────────────────────────┘
+
+[HKEY_CLASSES_ROOT\Directory\Background\shell\ADK-RobocopyCancelCopy]
+@="Cancel Copy (Robocopy)"
+"Icon"="shell32.dll,131" ; Optional: Uses a standard delete/cancel icon
+"Extended"="" ; <--- Hide the option unless you hold SHIFT while right-clicking
+
+[HKEY_CLASSES_ROOT\Directory\Background\shell\ADK-RobocopyCancelCopy\command]
+; This command deletes the temporary source file if it exists.
+@="pwsh -NoProfile -Command \"$item_list_file_path = \\\"${Env:TEMP}\\ADK\\robocopy_source_path.txt\\\"; if (Test-Path -LiteralPath $item_list_file_path -PathType \\\"Leaf\\\") { Remove-Item -LiteralPath $item_list_file_path }\""
