@@ -10,15 +10,16 @@ This repository provides Windows Registry files to add and remove custom “Copy
 
 ## Features
 
-- **Copy (Robocopy Source):** Adds a context menu option for files and folders to set the source path for a `robocopy` operation.
-- **Paste (Robocopy Destination):** Adds a context menu option in folder backgrounds to initiate a `robocopy` operation using the previously copied source path and the current folder as the destination.
-- **Shift Key Requirement:** Both quick actions are configured to appear only when holding down the `Shift` key while right-clicking, helping to keep your context menus clean.
+- **Robocopy: Add to List:** Adds a context menu option for files and folders to add their paths to a temporary list for a multi-item `robocopy` operation.
+- **Robocopy: Clear List:** Adds a context menu option in folder backgrounds to clear the temporary list of items to be copied.
+- **Robocopy: Paste:** Adds a context menu option in folder backgrounds to initiate a `robocopy` operation using all paths in the temporary list as sources and the current folder as the destination.
+- **Shift Key Requirement:** All quick actions are configured to appear only when holding down the `Shift` key while right-clicking, helping to keep your context menus clean.
 
 ## Script Flow
 
 The following diagram illustrates the flow of the copy and paste actions:
 
-[![Mermaid Flowchart Top-Down of ADK-QuickRobocopy](/images/mermaid-1.svg)](https://mermaid.live/edit#pako:eNqFVF1v2jAU_StXfukmAQuBdEkeNg0Co6V8DDpNW8KDlzjEahJHtqOWIaT-kO3P9ZfMONBmK2rzEOUq55x7fO6VtyhkEUEuilN2GyaYS7j2ghzU88n_KgiHBV0nstlPaXgjYEhT8m7I0ojwFTSbH6C3PVsmNJZnMCYbmHMiBIk-7iqFnoLAdyI0su8HaJmwW3i4_91nxQbeLNhPFqqvtw_3f2BWSMryAK0qal9zPMXRJpYkJaEUp7mPJE-TBv43TiWBJSt5SGCOZQKSwTXJCu1_VTM3ZZoyVH1GNCKve6u4n09EQ3OogoEeDm_WnJV5VGU0eimjUT2ji1pGcyzUIV4M6UKTLk-EdIL8yLrUrPFWB3IIaZ8LDO6okOJobFw3duUvCI7-iTTmLHsW6pVGT7YHIBXgUa5MMb456k7qulN_UeZwtAkx40-EVQ1_mNPsObzWfKoxc99TOajT_-9tVv2uirkuvvhzXAoCfZZlOI_UbFhWyFUtgEPjhe9RUaR4A3o9YqUq1JsL2YIB54wfOItKtjbag8CytmGvTBY10JrTCLmSl6SBMsIzvC_Rdi8bIJmQjATIVZ8RiXGZygAF-U7RCpz_YCw7MtUKrhPkxjgVqiqLCEviUbzm-AlCcrWxfbWrErmO6WgN5G7RHXJNs93q2B3Ttm2r6xhGp9tAG-R2nZbhmIZtWef2uWm_t3YN9Et3NVq2ZTq2YVndttGxrXangUhE1Swn1R2jr5rdX_Asabo)
+[![Mermaid Flowchart Top-Down of ADK-QuickRobocopy](/images/mermaid-1_flow.svg)](https://mermaid.live/edit#pako:eNqdVttu00AQ_ZXRStBUSkqaC0n9ALS5tPQakt4dHrb2Jl6wvdbaEYQoEh8CP8eXsF6PHedWKvJizeyZ2Zkzk2PPiCVsRgwycsU3y6Eyguv20Af1e_UKbqnk9Mll0GYj7vOICz9MDjPIIIpjXqunCBKn9hQK-rG7m_pEUIh9ItiNfVl4l7vsTVe4NpPQ52MnKrVcbn2FI0l9y0lgh-ZNuHwc5uM-J6ij2c7A4aNoB87YFHqShSGz38-Tw5Y5JANHfIM_P3_1xZOwRDA14NC2IRJwzsPoz8_fcBXEDQ4JJmyrGH3xgLnMisLnYrOgjnkYBMy3YSAm0mLQo5ET466ZF-iiEddVyU-4zV5a0IKwhKsjan0dSzFRN22j7XgDbdxfT4AVnTzH38ccfz0aRgwKadW7G6g73UDdhrAMfzbT_CBnMU3Q-a5ICNP7z80-o0ukhjCSwlvj9cLsCgkdajl5MB5eFnpSWKox3MqrGWJ4CG0uVaVCTtMre2Z_4kNaLoxU2gyD-T6tQ3Kl9Asd307332wrJlT_q_Vem20eBi6dxhS1dBZ1qJrjMtmBjpQiXfEbs0cnIYOW8DyqJq-68YIID29zG_WPEWXL1FLbwlzQ9-ZX5y437jzm2aHfbxj61uAs6mGNGeAjnD5CHnOdvaiarL_TiW9p0VoXMC1P6fmHGYQODZgBX9BTBJc-MdcARYRWuBQ6JDBfaNoLE4hgQ3zq2V8PXoVUNkMWcxS-zyzsLtcflEql5U5X1Psl8rsUrzK-g0PUZW0cofwqAx7U5sa-FqquNvB10tZGB2USK1swmMtyKTS0i0q5AfofarjexTHKpDZOUAQXXZQWA1qZlw74iMKojVNEaOMMNS1PyDnKmDYuUKq0cYnSpI0r1KV8aC-XDpm5RoHRxiCfrY_NauMmlw0jP6FwbaH_JIMuuq-srKLOc4ua89xstonLMo93qDjauEcl0cYDCsSWWpcLekSp2AJe_8cm3OmPFlIkY8ltYkRyworEY9KjsUlmcdiQRA7z2JDEf2WbjejEjYZk6M9VWED9RyG8NFJt4Nghxoi6obImgU0j1uZ0LOkCor4NmGypVY2I0Wg0dQ5izMh3YuzvlZu1ZrVcr9YqlUbj7YE6nRKjVG3U95q1RrlZbZbrjXKtPi-SH_ra_b235Uq9oQCVWrlaqR9Ui4TZXL2iLpKvOv1xN_8L8d4ehg)
 
 ## Installation
 
